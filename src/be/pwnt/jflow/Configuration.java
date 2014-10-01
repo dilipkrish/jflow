@@ -21,7 +21,8 @@ package be.pwnt.jflow;
 import java.awt.Color;
 
 public class Configuration {
-	public enum VerticalAlignment {
+
+    public enum VerticalAlignment {
 		TOP, MIDDLE, BOTTOM
 	}
 
@@ -64,6 +65,12 @@ public class Configuration {
 	public Color activeShapeBorderColor = Color.yellow;
 	
 	public Color activeShapeOverlayColor = null;
-	
+
+    public Color selectedShapeBorderColor = Color.green;
+
+    public Color selectedShapeOverlayColor = null;
+
+    public float selectedShapeBorderWidth = 3;
+
 	public boolean highQuality = false;
 }

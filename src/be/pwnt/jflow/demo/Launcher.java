@@ -18,17 +18,16 @@
 
 package be.pwnt.jflow.demo;
 
-import java.awt.Dimension;
-import java.awt.event.MouseEvent;
+import be.pwnt.jflow.JFlowPanel;
+import be.pwnt.jflow.event.ShapeEvent;
+import be.pwnt.jflow.event.ShapeListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import be.pwnt.jflow.JFlowPanel;
-import be.pwnt.jflow.event.ShapeEvent;
-import be.pwnt.jflow.event.ShapeListener;
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 
 public class Launcher implements Runnable {
 	@Override

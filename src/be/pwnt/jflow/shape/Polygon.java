@@ -63,7 +63,7 @@ public abstract class Polygon extends Shape {
 
 	@Override
 	public void paint(Graphics graphics, Scene scene, Dimension surfaceSize,
-			boolean active, Configuration config) {
+                      boolean active, boolean selected, Configuration config) {
 		if (points.isEmpty()) {
 			return;
 		}

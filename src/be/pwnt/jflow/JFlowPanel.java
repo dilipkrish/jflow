@@ -18,6 +18,14 @@
 
 package be.pwnt.jflow;
 
+import be.pwnt.jflow.event.ShapeEvent;
+import be.pwnt.jflow.event.ShapeListener;
+import be.pwnt.jflow.geometry.Point3D;
+import be.pwnt.jflow.geometry.RotationMatrix;
+import be.pwnt.jflow.shape.Picture;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -28,15 +36,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import be.pwnt.jflow.event.ShapeEvent;
-import be.pwnt.jflow.event.ShapeListener;
-import be.pwnt.jflow.geometry.Point3D;
-import be.pwnt.jflow.geometry.RotationMatrix;
-import be.pwnt.jflow.shape.Picture;
 
 @SuppressWarnings("serial")
 public class JFlowPanel extends JPanel implements MouseListener,
@@ -63,7 +62,9 @@ public class JFlowPanel extends JPanel implements MouseListener,
 
 	private int shapeArrayOffset;
 
-	public JFlowPanel(Configuration config) {
+    private Shape selectedShape;
+
+    public JFlowPanel(Configuration config) {
 		super();
 		this.config = config;
 		listeners = new HashSet<ShapeListener>();
@@ -101,6 +102,18 @@ public class JFlowPanel extends JPanel implements MouseListener,
 		normalizeScrollRate();
 		updateShapes();
 	}
+
+    public Shape getSelectedShape() {
+        return selectedShape;
+    }
+
+    public void setSelectedShapeIndex(int index) {
+        if (index < 0 || index > config.shapes.length) {
+            throw new ArrayIndexOutOfBoundsException(config.shapes.length);
+        }
+        selectedShape = config.shapes[index];
+        updateShapes();
+    }
 
 	private synchronized void normalizeScrollRate() {
 		while (scrollDelta < -0.5) {
@@ -219,7 +232,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 	}
 
 	private void paintShape(Shape shape, Graphics g) {
-		shape.paint(g, scene, getSize(), shape == activeShape, config);
+		shape.paint(g, scene, getSize(), shape == activeShape, shape == selectedShape, config);
 	}
 
 	private void checkActiveShape() {
@@ -238,6 +251,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 	public void mouseClicked(MouseEvent e) {
 		if (config.enableShapeSelection && activeShape != null) {
 			ShapeEvent evt = new ShapeEvent(activeShape, e);
+            selectedShape = activeShape;
 			for (ShapeListener listener : listeners) {
 				listener.shapeClicked(evt);
 			}
@@ -281,7 +295,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 	public void mouseDragged(MouseEvent e) {
 		if (buttonOnePressed) {
 			dragging = true;
-			setActiveShape(null);
+//			setActiveShape(null);
 			updateCursor();
 			double dragEnd = e.getLocationOnScreen().getX();
 			dragRate = config.scrollFactor * (dragEnd - dragStart) / getWidth();
@@ -345,6 +359,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 				repaint();
 				if (activeShape != newActiveShape) {
 					setActiveShape(newActiveShape);
+                    System.out.println("Is active shape null? " + (activeShape == null));
 				}
 			}
 			updateCursor();

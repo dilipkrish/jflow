@@ -10,7 +10,8 @@
 	<property name="manifest.base" value="${dir.src}/META-INF/JFLOW.MF" />
 	<property name="manifest.demo" value="${dir.src}/META-INF/DEMO.MF" />
 	<property name="jar.base" value="${dir.dist}/jflow${suffix}.jar" />
-	<property name="jar.demo" value="${dir.dist}/jflow-demo${suffix}.jar" />
+    <property name="jar.demo" value="${dir.dist}/jflow-demo${suffix}.jar" />
+    <property name="javac1.6" location="/Users/d_krishnan/.jenv/shims/javac" />
 	<target name="clean">
 		<delete dir="${dir.bin}" />
 		<delete dir="${dir.dist}" />
@@ -20,7 +21,7 @@
 		<mkdir dir="${dir.dist}" />
 	</target>
 	<target name="compile" depends="prepare">
-		<javac srcdir="${dir.src}" destdir="${dir.bin}" />
+		<javac executable="${javac1.6}" target="1.6" srcdir="${dir.src}" destdir="${dir.bin}" />
 		<copy todir="${dir.bin}/${pkg.demo}/img">
 			<fileset dir="${dir.src}/${pkg.demo}/img" />
 		</copy>

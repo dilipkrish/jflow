@@ -18,11 +18,11 @@
 
 package be.pwnt.jflow;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-
 import be.pwnt.jflow.geometry.Point3D;
 import be.pwnt.jflow.geometry.RotationMatrix;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
 
 public abstract class Shape {
 	private Point3D location;
@@ -53,5 +53,5 @@ public abstract class Shape {
 	public abstract boolean contains(Point3D point);
 
 	public abstract void paint(Graphics graphics, Scene scene,
-			Dimension surfaceSize, boolean active, Configuration config);
+                               Dimension surfaceSize, boolean active, boolean selected, Configuration config);
 }
