@@ -38,6 +38,7 @@ public class Launcher implements Runnable {
 		}
 		final JFlowPanel panel = new JFlowPanel(new Configuration());
 		panel.setPreferredSize(new Dimension(800, 300));
+        panel.setSelectedShapeIndex(3);
 		panel.addListener(new ShapeListener() {
 			@Override
 			public void shapeClicked(ShapeEvent e) {

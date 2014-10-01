@@ -112,7 +112,19 @@ public class JFlowPanel extends JPanel implements MouseListener,
             throw new ArrayIndexOutOfBoundsException(config.shapes.length);
         }
         selectedShape = config.shapes[index];
+        shapeArrayOffset = getSelectedShapeIndex();
         updateShapes();
+    }
+
+    private int getSelectedShapeIndex() {
+        Shape[] shapes = config.shapes;
+        for (int i = 0; i < shapes.length; i++) {
+            Shape shape = shapes[i];
+            if (shape == selectedShape) {
+                return i;
+            }
+        }
+        return 0;
     }
 
 	private synchronized void normalizeScrollRate() {
