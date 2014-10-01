@@ -111,9 +111,22 @@ public class JFlowPanel extends JPanel implements MouseListener,
         if (index < 0 || index > config.shapes.length) {
             throw new ArrayIndexOutOfBoundsException(config.shapes.length);
         }
+        System.out.printf("Index: %d, Shape offset: %d, %d, %d\n", index, shapeArrayOffset, transpose(index),
+                untranspose(index));
         selectedShape = config.shapes[index];
-        shapeArrayOffset = getSelectedShapeIndex();
+        if (centerIndex() > index) {
+            shapeArrayOffset = centerIndex() - index;
+        } else {
+            shapeArrayOffset = (config.shapes.length - index) + centerIndex();
+        }
         updateShapes();
+    }
+
+    private int centerIndex() {
+        if ((shapeArrayOffset % 2) == 0) {
+            return (config.shapes.length / 2) + 1;
+        }
+        return config.shapes.length / 2;
     }
 
     private int getSelectedShapeIndex() {
@@ -371,7 +384,6 @@ public class JFlowPanel extends JPanel implements MouseListener,
 				repaint();
 				if (activeShape != newActiveShape) {
 					setActiveShape(newActiveShape);
-                    System.out.println("Is active shape null? " + (activeShape == null));
 				}
 			}
 			updateCursor();

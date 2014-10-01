@@ -19,48 +19,61 @@
 package be.pwnt.jflow.demo;
 
 import be.pwnt.jflow.JFlowPanel;
-import be.pwnt.jflow.event.ShapeEvent;
-import be.pwnt.jflow.event.ShapeListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Launcher implements Runnable {
+    int shapeIndex = 0;
 	@Override
 	public void run() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 		}
-		final JFlowPanel panel = new JFlowPanel(new Configuration());
+        JPanel canvas = new JPanel();
+        final Configuration config = new Configuration();
+        final JFlowPanel panel = new JFlowPanel(config);
 		panel.setPreferredSize(new Dimension(800, 300));
-        panel.setSelectedShapeIndex(3);
-		panel.addListener(new ShapeListener() {
-			@Override
-			public void shapeClicked(ShapeEvent e) {
-				MouseEvent me = e.getMouseEvent();
-				if (!me.isConsumed() && me.getButton() == MouseEvent.BUTTON1
-						&& me.getClickCount() == 1) {
-					JOptionPane.showMessageDialog(panel,
-							"You clicked on " + e.getShape() + ".",
-							"Event Test", JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-
-			@Override
-			public void shapeActivated(ShapeEvent e) {
-			}
-
-			@Override
-			public void shapeDeactivated(ShapeEvent e) {
-			}
-		});
+        panel.setSelectedShapeIndex(shapeIndex);
+//		panel.addListener(new ShapeListener() {
+//			@Override
+//			public void shapeClicked(ShapeEvent e) {
+//				MouseEvent me = e.getMouseEvent();
+//				if (!me.isConsumed() && me.getButton() == MouseEvent.BUTTON1
+//						&& me.getClickCount() == 1) {
+//					JOptionPane.showMessageDialog(panel,
+//							"You clicked on " + e.getShape() + ".",
+//							"Event Test", JOptionPane.INFORMATION_MESSAGE);
+//				}
+//			}
+//
+//			@Override
+//			public void shapeActivated(ShapeEvent e) {
+//			}
+//
+//			@Override
+//			public void shapeDeactivated(ShapeEvent e) {
+//			}
+//		});
+        canvas.add(panel);
+        JButton test = new JButton("test");
+        test.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                panel.setSelectedShapeIndex((shapeIndex++) % config.shapes.length);
+            }
+        });
+        canvas.add(test);
 		JFrame frame = new JFrame("JFlow");
-		frame.getContentPane().add(panel);
+
+		frame.getContentPane().add(canvas);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
