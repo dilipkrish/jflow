@@ -114,10 +114,10 @@ public class JFlowPanel extends JPanel implements MouseListener,
         selectedShape = config.shapes[index];
         if (centerIndex() > index) {
             shapeArrayOffset = (centerIndex() - index);
-            System.out.printf("Lesser Offset : %d, index: %d\n", shapeArrayOffset, index);
+//            System.out.printf("Lesser Offset : %d, index: %d\n", shapeArrayOffset, index);
         } else if (index > centerIndex()) {
             shapeArrayOffset = (config.shapes.length - index) + centerIndex();
-            System.out.printf("Greater Offset : %d, index: %d\n", shapeArrayOffset, index);
+//            System.out.printf("Greater Offset : %d, index: %d\n", shapeArrayOffset, index);
         } else {
             shapeArrayOffset = 0;
         }
