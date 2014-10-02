@@ -113,9 +113,11 @@ public class JFlowPanel extends JPanel implements MouseListener,
         }
         selectedShape = config.shapes[index];
         if (centerIndex() > index) {
-            shapeArrayOffset = centerIndex() - index;
+            shapeArrayOffset = (centerIndex() - index);
+            System.out.printf("Lesser Offset : %d, index: %d\n", shapeArrayOffset, index);
         } else if (index > centerIndex()) {
             shapeArrayOffset = (config.shapes.length - index) + centerIndex();
+            System.out.printf("Greater Offset : %d, index: %d\n", shapeArrayOffset, index);
         } else {
             shapeArrayOffset = 0;
         }
@@ -123,9 +125,6 @@ public class JFlowPanel extends JPanel implements MouseListener,
     }
 
     private int centerIndex() {
-        if ((shapeArrayOffset % 2) == 0) {
-            return (config.shapes.length / 2) + 1;
-        }
         return config.shapes.length / 2;
     }
 
@@ -239,8 +238,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 		// respect stacking order
 		for (int i = 0; i < config.shapes.length / 2; i++) {
 			paintShape(config.shapes[untranspose(i)], g);
-			paintShape(
-					config.shapes[untranspose(config.shapes.length - 1 - i)], g);
+			paintShape(config.shapes[untranspose(config.shapes.length - 1 - i)], g);
 		}
 		paintShape(config.shapes[untranspose(config.shapes.length / 2)], g);
 	}
@@ -277,6 +275,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 		if (config.enableShapeSelection && activeShape != null) {
 			ShapeEvent evt = new ShapeEvent(activeShape, e);
             selectedShape = activeShape;
+            setSelectedShapeIndex(getSelectedShapeIndex());
 			for (ShapeListener listener : listeners) {
 				listener.shapeClicked(evt);
 			}
@@ -369,8 +368,7 @@ public class JFlowPanel extends JPanel implements MouseListener,
 						newActiveShape = config.shapes[i];
 					}
 					i = 1;
-					while (i <= config.shapes.length / 2
-							&& newActiveShape == null) {
+					while (i <= config.shapes.length / 2 && newActiveShape == null) {
 						int j = untranspose(config.shapes.length / 2 - i);
 						int k = untranspose(config.shapes.length / 2 + i);
 						if (config.shapes[j].contains(p)) {

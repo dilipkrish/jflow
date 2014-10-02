@@ -28,7 +28,7 @@ public class Configuration {
 
 	public Shape[] shapes;
 
-	public double shapeWidth = 1.0 / 3;
+	public double shapeWidth = 1.2 / 3;
 
 	public VerticalAlignment verticalShapeAlignment = VerticalAlignment.BOTTOM;
 
